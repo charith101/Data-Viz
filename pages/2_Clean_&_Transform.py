@@ -2,6 +2,14 @@ import streamlit as st
 import data_processing as dp
 import pandas as pd
 
+st.markdown("""
+    <style>
+    .st-emotion-cache-scp8yw {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+st.logo("assets/logo.svg",size="large")
 if "df" not in st.session_state or st.session_state.df is None:
     st.warning("Please upload a dataset on the **Home** page to proceed.")
     st.stop()
@@ -9,8 +17,6 @@ if "df" not in st.session_state or st.session_state.df is None:
 df = st.session_state.df
 
 st.title("Clean & Transform")
-
-# --- Tabs for Cleaning ---
 tab1, tab2, tab3 = st.tabs(["Handle Missing Values", "Remove Outliers (IQR)", "Reset Data"])
 
 with tab1:

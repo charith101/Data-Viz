@@ -2,6 +2,14 @@ import streamlit as st
 import visualization as viz
 import pandas as pd
 
+st.markdown("""
+    <style>
+    .st-emotion-cache-scp8yw {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+st.logo("assets/logo.svg",size="large")
 if "df" not in st.session_state or st.session_state.df is None:
     st.warning("Please upload a dataset on the **Home** page to proceed.")
     st.stop()
@@ -14,7 +22,6 @@ st.markdown("Analyze the distribution of a single column.")
 num_cols = df.select_dtypes(include='number').columns.tolist()
 cat_cols = [c for c in df.columns if c not in num_cols]
 
-# --- Numerical Plots ---
 st.header("Numerical Analysis")
 
 if not num_cols:
@@ -36,7 +43,6 @@ else:
 
 st.markdown("---")
 
-# --- Categorical Plots ---
 st.header("Categorical Analysis")
 
 if not cat_cols:

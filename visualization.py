@@ -4,7 +4,14 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 
-# Set common plotting template
+st.markdown("""
+    <style>
+    .st-emotion-cache-scp8yw {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+st.logo("assets/logo.svg",size="large")
 PLOTLY_TEMPLATE = "plotly_white"
 
 def plot_histogram(df, col):
@@ -18,8 +25,7 @@ def plot_histogram(df, col):
 def plot_box_plot(df, col, category_col=None):
     """Plots a box plot for a numerical column, optionally grouped by a category."""
     if col not in df.columns: return
-    
-    # Ensure category_col is valid if provided
+
     if category_col and category_col not in df.columns:
         category_col = None
 
@@ -44,7 +50,6 @@ def plot_density_heatmap(df, x, y):
 def plot_bar_chart_categorical(df, col, limit=15):
     """Plots a bar chart for categorical data (top N values)."""
     if col not in df.columns: return
-    # Filter for non-null values for cleaner count
     counts = df[col].dropna().value_counts().head(limit).reset_index()
     counts.columns = [col, 'Count']
     
@@ -88,16 +93,13 @@ def plot_missing_data_heatmap(df):
         st.success("No missing data to plot!")
         return
         
-    # Create a boolean DataFrame (1 for missing, 0 for present)
     missing_df = df.isnull().astype(int)
     
-    # Plotting requires melted data for Plotly Express, or direct go.Heatmap
-    # Using go.Heatmap for cleaner presentation of missingness
     fig = go.Figure(data=go.Heatmap(
-        z=missing_df.T.values, # Transpose to put columns on Y-axis
+        z=missing_df.T.values, 
         x=missing_df.index.tolist(),
         y=missing_df.columns.tolist(),
-        colorscale=[[0, 'blue'], [1, 'red']], # Blue for present, Red for missing
+        colorscale=[[0, 'blue'], [1, 'red']], 
         showscale=False
     ))
     
@@ -119,7 +121,6 @@ def plot_pairplot(df):
         st.info("Need at least 2 numerical columns for a Pair Plot.")
         return
 
-    # Use a subset of up to 5 numerical columns for performance
     dimensions_to_plot = num_cols[:5].tolist()
     
     fig = px.scatter_matrix(

@@ -3,6 +3,14 @@ import data_processing as dp
 import pandas as pd
 import io
 
+st.markdown("""
+    <style>
+    .st-emotion-cache-scp8yw {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+st.logo("assets/logo.svg",size="large")
 if "df" not in st.session_state or st.session_state.df is None:
     st.warning("Please upload a dataset on the **Home** page to proceed.")
     st.stop()
@@ -10,8 +18,6 @@ if "df" not in st.session_state or st.session_state.df is None:
 df = st.session_state.df
 
 st.title("Export & Final Report")
-
-# --- Export Options ---
 st.header("Download Cleaned Data")
 st.markdown("Download your current, cleaned dataset in your preferred format.")
 
@@ -19,7 +25,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.download_button(
-        "📥 Download as CSV",
+        "Download as CSV",
         df.to_csv(index=False).encode('utf-8'),
         "cleaned_data.csv",
         "text/csv",
@@ -28,12 +34,11 @@ with col1:
 
 with col2:
     excel_buffer = io.BytesIO()
-    # Use 'openpyxl' engine which is in requirements.txt
     df.to_excel(excel_buffer, index=False, engine='openpyxl')
     excel_buffer.seek(0)
     
     st.download_button(
-        "📥 Download as Excel (.xlsx)",
+        "Download as Excel (.xlsx)",
         data=excel_buffer,
         file_name="cleaned_data.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -42,7 +47,6 @@ with col2:
 
 st.markdown("---")
 
-# --- Final Report ---
 st.header("Final Data Report Summary")
 
 final_rows = df.shape[0]

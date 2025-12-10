@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+st.markdown("""
+    <style>
+    .st-emotion-cache-scp8yw {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+st.logo("assets/logo.svg",size="large")
 @st.cache_data
 def load_data(uploaded_file):
     """Loads data from a file, supports CSV and Excel."""
